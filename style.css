@@ -1,0 +1,22 @@
+.color {
+    display: inline-block;
+ width: 100px;
+  height: 100px;
+  padding-top: 10px;
+  border: solid black 1px;
+
+}
+
+.pixel{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: solid black 1px;
+    background-color: white;
+}
+
+#pixel-board{
+    
+    width:fit-content;
+    line-height:0%;
+}
