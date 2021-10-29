@@ -1,223 +1,170 @@
-let cor = [];
-let controle = 5
-let vezRodando = true
-function createPallet(colorNumbers) {
-
-  let paleta = document.createElement('div')
-
-  document.getElementsByTagName('body')[0].appendChild(paleta)
-  paleta.id = "color-palette"
-
-
-  for (let i = 0; i < colorNumbers; i += 1) {
-
-    let divColors = colorNumbers[i]
-    divColors = document.createElement('div');
-    
-    divColors.className = "color";
-
-
-    document.getElementById('color-palette').appendChild(divColors)
-
-    if (i == 0) {
-      divColors.style.backgroundColor = "black"
-      cor[i] = "#000"
-      divColors.id = "#000" ;
-      divColors.classList.add('selected')
-    } else {
-      cor[i] = generateColors()
-    divColors.style.backgroundColor = cor[i]
-    divColors.id = cor[i] ;
-}
-
-   divColors.addEventListener('click', selecionar)
-    
-  }
-
-
-  
-
-
-
-}
-
-function createCanvas(ctrl) {
-
-  let quadro = document.createElement('div')
-  document.getElementsByTagName('body')[0].appendChild(quadro)
-  quadro.id = 'pixel-board'
-  let tamanho = document.getElementById('board-size')
-
-  kills=document.getElementById('pixel-board')
-
-  if(vezRodando==false && tamanho.value == ''){
-console.log
-    alert('Board inválido!')
-
-  }else {
-
-
-
-    if (tamanho.value < 5){
-        if (vezRodando == false){
-        tamanho.value =5;
-    }
-    } else if (tamanho.value> 50){
-        tamanho.value=50
-    }
-
-
-
-
-  if (vezRodando == false) { 
-
-    
-    kills.innerHTML = '';
-  
-   let tamanho = document.getElementById('board-size')
-   ctrl = tamanho.value 
-
-   }
-    
-
- 
-
-    
-
-  for (let o = 0; o < ctrl; o += 1) {
-    for (let i = 0; i < ctrl; i += 1) {
-
-      let canvasPixie = document.createElement('div');
-      document.getElementById('pixel-board').appendChild(canvasPixie)
-      canvasPixie.id = canvasPixie.id + i + o
-      canvasPixie.className = 'pixel'
-      canvasPixie.addEventListener('click', pintar)
-
-      if (i == ctrl - 1) {
-        let breakLine = document.createElement('br')
-        document.getElementById('pixel-board').appendChild(breakLine)
-      }
-    
-    }
-  }
-   vezRodando = false
-}
-}
+const elementBody = document.getElementsByTagName('body')[0];
+const colorPalletID = 'color-palette';
+const colorCanvasID = 'pixel-board';
+const boardSize = 'board-size';
+// definições de atalhos;
+const cor = [];
+let controle = 5;
+let runTime = true;
 
 function generateColors() {
-
-  var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
-
+  let randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
   if (randomColor.length < 7) {
-
-    randomColor += 0
+    randomColor += 0;
   }
   // Minha contribuição para a formula que vez por outra retornava numeros quebrados
-
   return randomColor;
 
-  // - randomColor receve "#" concatenado com o arredondamento para baixo (Math.floor()) 
-  //de um numero aleatorio entre zero e um  (math.random())
-  //Multiplicado pelo numero possivel de cores (*16777215)
-  //Tudo isso convertido a uma string de base Hexadecimal (toString(16))
-
-
-  // Referencias para generateColors
-  //https://dev.to/akhil_001/generating-random-color-with-single-line-of-js-code-fhj
-  //https://css-tricks.com/snippets/javascript/random-hex-color/
-  //https://stackoverflow.com/questions/1484506/random-color-generator
-  //https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Number/toString
+  /* randomColor receve "#" concatenado com o arredondamento para baixo (Math.floor())
+  de um numero aleatorio entre zero e um  (math.random())
+  Multiplicado pelo numero possivel de cores (*16777215)
+  Tudo isso convertido a uma string de base Hexadecimal (toString(16))
+   Referencias para generateColors
+  https://dev.to/akhil_001/generating-random-color-with-single-line-of-js-code-fhj
+  https://css-tricks.com/snippets/javascript/random-hex-color/
+  https://stackoverflow.com/questions/1484506/random-color-generator
+  https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Number/toString */
 }
-
+// gera uma cor Hex aleatoria
+function formBase(identf) {
+  const e = document.createElement('section');
+  elementBody.appendChild(e);
+  e.id = identf;
+}
+// Cria a forma de quadro
+function createColorInPallete() {
+  const e = document.createElement('section');
+  document.getElementById(colorPalletID).appendChild(e);
+  e.className = 'color';
+  return e;
+}
+// Cria um quadrado colorido;
 function selecionar(box) {
+  const removeSelected = document.getElementsByClassName('color');
 
-    
-    
-    let removeSelected = document.getElementsByClassName('color')
-
-    for(i=0; i<removeSelected.length;i+=1){
-        if (removeSelected[i].classList.contains('selected')){
-        removeSelected[i].classList.remove('selected')
-    
-        }
+  for (let i = 0; i < removeSelected.length; i += 1) {
+    if (removeSelected[i].classList.contains('selected')) {
+      removeSelected[i].classList.remove('selected');
     }
-
-    document.getElementById(box.target.id).classList.add('selected')
-     let selectedColor =  document.getElementById(box.target.id).style.backgroundColor
-     return selectedColor
-
+  }
+  document.getElementById(box.target.id).classList.add('selected');
+  const selectedColor = document.getElementById(box.target.id).style
+    .backgroundColor;
+  return selectedColor;
+}
+// Seleciona uma cor;
+function createPallete(colorNumbers) {
+  formBase(colorPalletID);
+  document.getElementById(colorPalletID);
+  for (let i = 0; i < colorNumbers; i += 1) {
+    const sectionColors = createColorInPallete();
+    if (i === 0) {
+      sectionColors.style.backgroundColor = 'black';
+      cor[i] = '#000';
+      sectionColors.id = '#000';
+      sectionColors.classList.add('selected');
+    } else {
+      cor[i] = generateColors();
+      sectionColors.style.backgroundColor = cor[i];
+      sectionColors.id = cor[i];
+    }
+    sectionColors.addEventListener('click', selecionar);
+  }
+}
+// Cria a Paleta de cores;
+function maxMinCheck(e) {
+  if (e.value < 5) {
+    if (runTime === false) {
+      return 5;
+    }
+  } else if (e.value > 50) {
+    e.value = 50;
+    return 50;
+  } else {
+    return e.value;
+  }
+}
+// Confere se os valores são maiores ou menores que so parametros;
+function clearPathToRecreate() {
+  if (runTime === false) {
+    const size = document.getElementById(boardSize);
+    const kills = document.getElementById(colorCanvasID);
+    kills.innerHTML = '';
+    controle = size.value;
+  }
+}
+// Elimina os blocos anteriores para criar novos;
+function paint(pen) {
+  const pencil = document.getElementsByClassName('selected')[0].id;
+  document.getElementById(pen.target.id).style.backgroundColor = pencil;
+}
+// pinta os pixeis;
+function drawLines(e, o) {
+  for (let i = 0; i < e; i += 1) {
+    const canvasPixie = document.createElement('div');
+    document.getElementById(colorCanvasID).appendChild(canvasPixie);
+    canvasPixie.id = canvasPixie.id + i + o;
+    canvasPixie.className = 'pixel';
+    canvasPixie.addEventListener('click', paint);
+    if (i === e - 1) {
+      const breakLine = document.createElement('br');
+      document.getElementById(colorCanvasID).appendChild(breakLine);
+    }
+  }
+}
+// desenha as linhas dos pixeis;
+function createPixels() {
+  const size = document.getElementById(boardSize);
+  size.value = maxMinCheck(size);
+  clearPathToRecreate();
+  for (let o = 0; o < controle; o += 1) {
+    drawLines(controle, o);
+  }
+  runTime = false;
+}
+// desenha os pixeis da tela;
+function limparTudo() {
+  const size = document.getElementById(boardSize);
+  if (size.value < 5) {
+    size.value = 5;
+  }
+  for (let o = 0; o < size.value; o += 1) {
+    for (let i = 0; i < size.value; i += 1) {
+      const eID = `${i}${o}`;
+      const empty = document.getElementById(eID);
+      empty.style.backgroundColor = 'white';
+    }
+  }
 }
 
-function pintar(pen){
-    console.log('test')
+function createCanvas() {
+  formBase(colorCanvasID);
+  const size = document.getElementById(boardSize);
 
-  let   pencil = document.getElementsByClassName('selected')[0].id
-  console.log(pencil)
-    document.getElementById(pen.target.id).style.backgroundColor = pencil
-
+  if (runTime === false && size.value === '') {
+    alert('Board inválido!');
+  } else {
+    createPixels();
+  }
 }
 
-
-createPallet(4)
-
-let clearAll = document.createElement("button")
-document.getElementsByTagName('body')[0].appendChild(clearAll)
-clearAll.id = "clear-board"
-clearAll.innerText="Limpar"
-clearAll.addEventListener('click',limparTudo)
-
-
-let bonusInput = document.createElement('input')
-bonusInput.id = 'board-size'
-let bonusButon = document.createElement('button') 
-bonusButon.id = 'generate-board'
-document.getElementsByTagName('body')[0].appendChild(bonusInput)
-bonusInput.type = 'number'
-bonusInput.min = 1
-
-
-
-
-document.getElementsByTagName('body')[0].appendChild(bonusButon)
-bonusButon.innerText= 'VQV'
-
-
-
-    bonusButon.addEventListener('click', createCanvas)
-
-
-
-createCanvas(controle)
-
-
-
-function limparTudo (controle){
-
-
-    let tamanho = document.getElementById('board-size')
-   
-    if (tamanho.value >5 ){
-        controle = tamanho.value 
-}else{
-    controle = 5
+function createElement(eID, innerTxt, eEvent) {
+  const clearAll = document.createElement('button');
+  document.getElementsByTagName('body')[0].appendChild(clearAll);
+  clearAll.id = eID;
+  clearAll.innerText = innerTxt;
+  clearAll.addEventListener('click', eEvent);
 }
+createPallete(4);
 
-    for (let o = 0; o < controle; o += 1) {
-        for (let i = 0; i < controle; i += 1) {
-          
+createElement('clear-board', 'Limpar', limparTudo);
 
+const bonusInput = document.createElement('input');
+elementBody.appendChild(bonusInput);
+bonusInput.id = boardSize;
+bonusInput.type = 'number';
+bonusInput.min = 1;
 
-        let ctrl = "" + i + o
-          
-          let emp = document.getElementById(ctrl)
-          emp.style.backgroundColor = "white"
+createElement('generate-board', 'VQV', createCanvas);
 
-          }
-    
-        }
-      }
-
-
-    
-     
-
+createCanvas();
