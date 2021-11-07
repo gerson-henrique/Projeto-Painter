@@ -12,6 +12,7 @@ function generateColors() {
   if (randomColor.length < 7) {
     randomColor += 0;
   }
+  
   // Minha contribuição para a formula que vez por outra retornava numeros quebrados
   return randomColor;
 
